@@ -1,13 +1,20 @@
-require 'net/http'    
+require 'rest-client'
 
 module Gig
   
   class Gateway
+    
     def self.call args
-      uri = URI("https://api.github.com/search/repositories?q=#{args.join('+')}")
-      response = Net::HTTP.get_response(uri)
-      {body: response.body, code: response.code.to_i}
+      begin 
+        response = RestClient.get "https://api.github.com/search/repositories?q=#{args.join('+')}"
+        {body: response.body, code: response.code.to_i}
+      rescue RestClient::ExceptionWithResponse => e
+        {body:  e.response, code: 1000}
+      rescue SocketError
+        {body:  'Network connectivity issue, please check your network', code: 1001} 
+      end
     end
+
   end
 
 end

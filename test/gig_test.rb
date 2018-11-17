@@ -1,6 +1,5 @@
 require "test_helper"
-require 'open-uri'
-
+require 'rest-client'
 
 class GigTest < Minitest::Test
   def setup
@@ -22,13 +21,15 @@ class GigTest < Minitest::Test
     WebMock.stub_request(:get, "https://avatars1.githubusercontent.com/u/4223?v=4").
     with(
       headers: {
-        'Accept'=>'*/*',
-        'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-        'User-Agent'=>'Ruby'
-    }).
-    to_return(status: 200, body: "image", headers: {"Content-Type" => "image/png"})
+      'Accept'=>'*/*',
+      'Accept-Encoding'=>'gzip, deflate',
+      'Host'=>'avatars1.githubusercontent.com',
+      'User-Agent'=>'rest-client/2.0.2 (darwin18 x86_64) ruby/2.3.7p456'
+      }).
+    to_return(status: 200, body: "", headers: {"Content-Type"=>"image/png"})
 
-    image_file = open("https://avatars1.githubusercontent.com/u/4223?v=4") 
-    assert_equal Gig::Helper::remote_file_name(image_file), "4223?v=4.png"
+    url = "https://avatars1.githubusercontent.com/u/4223?v=4"
+    res = RestClient.get url
+    assert Gig::Helper::remote_file_name(url, res).include? "4223?v=4.png"
   end
 end

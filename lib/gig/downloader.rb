@@ -1,8 +1,10 @@
-require 'open-uri'
+require 'rest-client'
 
 module Gig
   
   class Downloader 
+
+    TIME_VALIDITY = 60*60.to_f #images are valid if downloaded within recent one hour
     def initialize urls, destination
       @urls = urls
       @destination = destination
@@ -23,8 +25,22 @@ module Gig
     end
 
     def save url
-      image_file = open(url) 
-      IO.copy_stream(image_file, "#{@destination}/#{Gig::Helper::remote_file_name(image_file)}")
+      unless image_exists url
+        res = RestClient.get url
+        file_name = Gig::Helper::remote_file_name(url, res)
+        File.write("#{@destination}/#{file_name}", res.body)
+        puts "- #{file_name} downloaded successfully!".colorize(:green)
+      end
+    end
+
+    def image_exists url
+      file_name = url.split("/")[-1]
+      result = false
+      if Dir["#{@destination}/*-#{file_name}*"].any?
+        file_timestamp = Dir.glob("#{@destination}/*-#{file_name}*").first.split("/")[-1].split("-").first.to_i
+        result = true if file_timestamp > (Time.now - TIME_VALIDITY).to_i #check if file older than certain amount of time
+      end  
+      result
     end
 
   end

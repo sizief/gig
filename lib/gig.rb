@@ -16,8 +16,9 @@ module Gig
       results
     end
 
-    def self.remote_file_name file
-      file.base_uri.to_s.split('/')[-1] + "." + Gig::Helper::format_name(file.content_type)
+    def self.remote_file_name url, res
+      file_name = Time.now.to_i.to_s + "-" + url.to_s.split('/')[-1]
+      file_name + "." + Gig::Helper::format_name(res.headers[:content_type])
     end
 
     def self.format_name content_type
