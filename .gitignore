@@ -8,3 +8,5 @@
 /tmp/
 tasks
 .DS_Store
+/topic*
+

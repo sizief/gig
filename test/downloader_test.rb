@@ -5,7 +5,7 @@ require 'open-uri'
 class DownloaderTest < Minitest::Test
   
   def setup
-    @destination = %w[test-folder topic:ruby topic:rails].join("-")
+    @destination = "./test/tmp/" + %w[topic:ruby topic:rails].join("-")
     @image_array = File.readlines("./test/data/image_list")
     @downloader = Gig::Downloader.new @image_array,  @destination
   end

@@ -8,6 +8,13 @@ module Gig
       @destination = destination
     end
 
+    def save_all
+      create_folder
+      @urls.each do |url|
+        save url
+      end
+    end
+
     private
     def create_folder
       unless @urls.empty?
