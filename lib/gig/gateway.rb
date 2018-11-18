@@ -19,3 +19,6 @@ module Gig
 
 end
   
+#TODO: use response.headers[:link].split(",").first.split(";").first[/<(.*)>/,1] to get next link 
+#and add remaining links to response hash. 
+ 

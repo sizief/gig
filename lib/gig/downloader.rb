@@ -5,26 +5,33 @@ module Gig
   class Downloader 
 
     TIME_VALIDITY = 60*60.to_f #images are valid if downloaded within recent one hour
+    THREAD_LIMIT = 10.to_f #change this based on your hard drive IO capability and internet bandwidth
+    
     def initialize urls, destination
       @urls = urls
       @destination = destination
     end
 
+    #download and save files in THREAD_LIMIT item batches, because we don't have any queue system to save failed requests,
+    #it if better to be cautious and think of IO and bandwidth limits.
+    #TODO: add something like Sidekiq to retry failed requests.
     def save_all
       threads = Array.new
       create_folder
       @urls.each do |url|
-        threads << Thread.new { save url }
+        if(Thread.list.count % THREAD_LIMIT != 0) 
+          threads << Thread.new { save url }
+        else
+          threads.each { |thread| thread.join }
+          threads << Thread.new { save url }
+        end
       end
-
-      threads.each do |thread|
-        thread.join  
-      end 
+      threads.each { |thread| thread.join }
     end
 
     private
     def create_folder
-      unless @urls.empty?
+      unless @urls.empty? # we don't need to create folders for empty requests
         Dir.mkdir @destination unless File.directory? @destination
       end
     end

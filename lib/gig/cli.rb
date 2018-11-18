@@ -17,4 +17,4 @@ module Gig
   end
 
 end
-  
+# TODO: give more options to users by using 'optparse'
