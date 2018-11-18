@@ -18,3 +18,4 @@ module Gig
 
 end
 # TODO: give more options to users by using 'optparse'
+# TODO: separate the logic from CLI so we can use Gig with more interfaces
