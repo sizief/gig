@@ -11,10 +11,15 @@ module Gig
     end
 
     def save_all
+      threads = Array.new
       create_folder
       @urls.each do |url|
-        save url
+        threads << Thread.new { save url }
       end
+
+      threads.each do |thread|
+        thread.join  
+      end 
     end
 
     private
@@ -26,10 +31,13 @@ module Gig
 
     def save url
       unless image_exists url
-        res = RestClient.get url
-        file_name = Gig::Helper::remote_file_name(url, res)
-        File.write("#{@destination}/#{file_name}", res.body)
-        puts "- #{file_name} downloaded successfully!".colorize(:green)
+        begin
+          res = RestClient.get url
+          file_name = Gig::Helper::remote_file_name(url, res)
+          File.write("#{@destination}/#{file_name}", res.body)
+          puts "- #{file_name} downloaded successfully!".colorize(:green)
+        rescue
+        end
       end
     end
 
