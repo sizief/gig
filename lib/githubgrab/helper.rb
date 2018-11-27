@@ -1,6 +1,6 @@
 require "json"
 
-module Gig
+module Githubgrab
   module Helper
     def self.extract_image_urls document
       json = JSON.parse document
@@ -14,7 +14,7 @@ module Gig
 
     def self.remote_file_name url, res
       file_name = Time.now.to_i.to_s + "-" + url.to_s.split('/')[-1]
-      file_name + "." + Gig::Helper::format_name(res.headers[:content_type])
+      file_name + "." + Githubgrab::Helper::format_name(res.headers[:content_type])
     end
 
     def self.format_name content_type

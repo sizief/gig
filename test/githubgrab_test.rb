@@ -1,18 +1,18 @@
 require "test_helper"
 require 'rest-client'
 
-class GigTest < Minitest::Test
+class GithubgrabTest < Minitest::Test
   def setup
     file = File.open("./test/data/api_response", "r") 
     @document = file.read
   end
 
   def test_that_it_has_a_version_number
-    refute_nil ::Gig::VERSION
+    refute_nil ::Githubgrab::VERSION
   end
 
   def test_extract_image_urls 
-    images_array = Gig::Helper::extract_image_urls @document
+    images_array = Githubgrab::Helper::extract_image_urls @document
     assert images_array.kind_of? Array
     assert_equal images_array[0], "https://avatars1.githubusercontent.com/u/4223?v=4" 
   end
@@ -30,6 +30,6 @@ class GigTest < Minitest::Test
 
     url = "https://avatars1.githubusercontent.com/u/4223?v=4"
     res = RestClient.get url
-    assert Gig::Helper::remote_file_name(url, res).include? "4223?v=4.png"
+    assert Githubgrab::Helper::remote_file_name(url, res).include? "4223?v=4.png"
   end
 end

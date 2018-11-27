@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    gig (0.1.0)
+    githubgrab (0.1.1)
 
 GEM
   remote: https://rubygems.org/
@@ -43,7 +43,7 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.16)
   colorize
-  gig!
+  githubgrab!
   minitest (~> 5.0)
   rake (~> 10.0)
   rest-client

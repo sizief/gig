@@ -1,7 +1,7 @@
 require 'rest-client'
 require 'thread/pool'
 
-module Gig
+module Githubgrab
   
   class Downloader 
 
@@ -36,7 +36,7 @@ module Gig
       unless image_exists url
         begin
           res = RestClient.get url
-          file_name = Gig::Helper::remote_file_name(url, res)
+          file_name = Githubgrab::Helper::remote_file_name(url, res)
           File.write("#{@destination}/#{file_name}", res.body)
           puts "- #{file_name} downloaded successfully!".colorize(:green)
         rescue

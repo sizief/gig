@@ -1,6 +1,6 @@
 require 'rest-client'
 
-module Gig
+module Githubgrab
   
   class Gateway
     

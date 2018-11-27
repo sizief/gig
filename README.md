@@ -1,4 +1,4 @@
-# Gig
+# Githubgrab
 
 This is a very simple CLI to get profile pictures of Github users. It uses the Github public API and for now it saves the first batch of response, first 30 images.  
 
@@ -8,7 +8,7 @@ This is a very simple CLI to get profile pictures of Github users. It uses the G
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'gig'
+gem 'githubgrab'
 ```
 
 And then execute:
@@ -17,17 +17,17 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install gig
+    $ gem install githubgrab
 
 ## Usage
  To get profile pictures of users who tagged `ruby`  
-`bin/gig topic:ruby`  
+`bin/githubgrab topic:ruby`  
 and check the `topic:ruby` folder in the root.
 
 
 Or finding topic `rails` and `ruby`
 
-`bin/gig topic:ruby topic:rails`
+`bin/githubgrab topic:ruby topic:rails`
 
 
 
@@ -47,4 +47,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Gig project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/gig/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Githubgrab project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/sizief//blob/master/CODE_OF_CONDUCT.md).
