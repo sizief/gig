@@ -37,4 +37,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "webmock"
   spec.add_development_dependency "rest-client"
   spec.add_development_dependency "colorize"
+  spec.add_development_dependency "thread"
 end

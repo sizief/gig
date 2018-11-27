@@ -1,11 +1,12 @@
 require 'rest-client'
+require 'thread/pool'
 
 module Gig
   
   class Downloader 
 
     TIME_VALIDITY = 60*60.to_f #images are valid if downloaded within recent one hour
-    THREAD_LIMIT = 10.to_f #change this based on your hard drive IO capability and internet bandwidth
+    THREAD_LIMIT = 10.to_i #change this based on your hard drive IO capability and internet bandwidth
     
     def initialize urls, destination
       @urls = urls
@@ -16,17 +17,12 @@ module Gig
     #it if better to be cautious and think of IO and bandwidth limits.
     #TODO: add something like Sidekiq to retry failed requests.
     def save_all
-      threads = Array.new
+      pool = Thread.pool(THREAD_LIMIT)
       create_folder
       @urls.each do |url|
-        if(Thread.list.count % THREAD_LIMIT != 0) 
-          threads << Thread.new { save url }
-        else
-          threads.each { |thread| thread.join }
-          threads << Thread.new { save url }
-        end
+        pool.process {save url} 
       end
-      threads.each { |thread| thread.join }
+      pool.shutdown
     end
 
     private
