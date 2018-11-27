@@ -1,3 +1,6 @@
+[![Gem Version](https://badge.fury.io/rb/githubgrab.svg)](https://badge.fury.io/rb/githubgrab)
+
+
 # Githubgrab
 
 This is a very simple CLI to get profile pictures of Github users. It uses the Github public API and for now it saves the first batch of response, first 30 images.  
